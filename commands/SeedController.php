@@ -63,12 +63,27 @@ class SeedController extends Controller
         echo "Cities loaded! \n";
         foreach ($names as $name) {
             $newName = new Name();
+            $city = City::findOne([
+                'name' => $cities[$name['city_id']+1]['name'],
+            ]);
+            if ($city !== NULL) {
+                echo "Find ".$city->name."\n";
+                $name['city_id'] = $city->id;
+            }
             $newName->attributes = $name;
             $newName->save();
         }
         echo "Names loaded! \n";
         foreach ($phones as $phone) {
             $newPhone = new Phone();
+            $name = Name::findOne([
+                'fio' => $names[$phone['name_id']+1]['fio'],
+            ]);
+            if ($name !== NULL) {
+                echo "Find ".$name->fio."\n";
+                $phone['name_id'] = $name->id;
+            }
+
             $newPhone->attributes = $phone;
             $newPhone->save();
         }
