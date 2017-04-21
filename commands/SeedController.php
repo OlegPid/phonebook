@@ -64,7 +64,7 @@ class SeedController extends Controller
         foreach ($names as $name) {
             $newName = new Name();
             $city = City::findOne([
-                'name' => $cities[$name['city_id']+1]['name'],
+                'name' => $cities[$name['city_id']-1]['name'],
             ]);
             if ($city !== NULL) {
                 echo "Find ".$city->name."\n";
@@ -77,7 +77,7 @@ class SeedController extends Controller
         foreach ($phones as $phone) {
             $newPhone = new Phone();
             $name = Name::findOne([
-                'fio' => $names[$phone['name_id']+1]['fio'],
+                'fio' => $names[$phone['name_id']-1]['fio'],
             ]);
             if ($name !== NULL) {
                 echo "Find ".$name->fio."\n";
