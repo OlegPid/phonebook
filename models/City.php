@@ -42,7 +42,7 @@ class City extends \yii\db\ActiveRecord
             'name' => 'Name',
         ];
     }
-    public function getCitiesList()
+    public static function getCitiesList()
     {
         $cities = City::find()
             ->select(['id', 'name'])
