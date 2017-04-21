@@ -78,7 +78,7 @@ class Name extends \yii\db\ActiveRecord
         }
         return $s;
     }  
-    public function getNamesList()
+    public static function getNamesList()
     {
         $names = Name::find()
             ->select(['id', 'fio'])
