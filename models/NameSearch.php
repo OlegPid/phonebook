@@ -6,6 +6,8 @@ use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\models\Name;
+use app\models\Phone;
+use \yii\helpers\ArrayHelper;
 
 /**
  * NameSearch represents the model behind the search form about `app\models\Name`.
@@ -42,7 +44,7 @@ class NameSearch extends Name
      */
     public function search($params)
     {
-        $query = Name::find()->joinWith(['phones']);
+        $query = Name::find();//->joinWith(['phones']);
 
         // add conditions that should always apply here
         $dataProvider = new ActiveDataProvider([
@@ -56,16 +58,25 @@ class NameSearch extends Name
             // $query->where('0=1');
             return $dataProvider;
         }
-
+        
+        $ids = [];
+        if (isset($this->phone_search)) {
+            $query_phones = Phone::find()
+                ->select(['name_id'])
+                ->where(['like', 'number', $this->phone_search])
+                ->asArray()
+                ->all();
+            $ids = ArrayHelper::getColumn($query_phones, 'name_id');
+        }
         // grid filtering conditions
         $query->andFilterWhere([
-            'id' => $this->id,
+            'id' => $ids,//$this->id,
             'city_id' => $this->city_id,
             'country_id' => $this->country_id,
         ]);
 
         $query->andFilterWhere(['like', 'fio', $this->fio]);
-        $query->andFilterWhere(['like', 'number', $this->phone_search]);
+        //$query->andFilterWhere(['like', 'number', $this->phone_search]);
         return $dataProvider;
     }
 }

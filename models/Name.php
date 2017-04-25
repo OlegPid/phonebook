@@ -32,7 +32,7 @@ class Name extends \yii\db\ActiveRecord
     {
         return [
             [['city_id'], 'integer'],
-            [['fio'], 'required'],
+            [['fio', 'city_id', 'country_id'], 'required'],
             [['fio'], 'string', 'max' => 255],
             [['city_id'], 'exist', 'skipOnError' => true, 'targetClass' => City::className(), 'targetAttribute' => ['city_id' => 'id']],
             [['country_id'], 'exist', 'skipOnError' => true, 'targetClass' => Country::className(), 'targetAttribute' => ['country_id' => 'id']],
