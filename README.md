@@ -17,8 +17,20 @@ composer install
 php yii migrate
 ~~~
 
+1) To fill the countries and cities data, run a command:
 
-To fill the test data, run a command:
+~~~
+php yii seed-country-city
+~~~
+
+2) To fill the names for search data, run a command:
+
+~~~
+php yii seed-names-list
+~~~
+
+3) To fill the test data, run a command:
+    (this command do not work without first seed)
 
 ~~~
 php yii seed
