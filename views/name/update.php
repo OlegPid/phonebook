@@ -17,24 +17,7 @@ $this->params['breadcrumbs'][] = 'Update';
 
     <?= $this->render('_form', [
         'model' => $model,
+        'modelsPhone' => $modelsPhone,
     ]) ?>
-
-    <p>
-        <?= Html::a('Add phone', ['phone/create', 'name_id' => $model->id], ['class' => 'btn btn-success']) ?>
-    </p>
-    <?= GridView::widget([
-        'dataProvider' => $phoneDataProvider,
-        //'filterModel' => $searchModel,
-        'columns' => [
-          //  ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
-            'number',
-            [
-                'class' => 'yii\grid\ActionColumn',
-                'controller' => 'phone',
-            ],
-        ],
-    ]); ?>
 
 </div>

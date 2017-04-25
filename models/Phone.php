@@ -31,7 +31,8 @@ class Phone extends \yii\db\ActiveRecord
         return [
             [['name_id'], 'integer'],
             [['number'], 'required'],
-            [['number'], 'string', 'max' => 255],
+            [['number'], 'string', 'max' => 10],
+            [['number'], 'match', 'pattern' => '/^\d+$/'],
             [['name_id'], 'exist', 'skipOnError' => true, 'targetClass' => Name::className(), 'targetAttribute' => ['name_id' => 'id']],
         ];
     }

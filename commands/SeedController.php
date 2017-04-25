@@ -29,38 +29,38 @@ class SeedController extends Controller
     public function actionIndex()
     {
         $cities = [
-            ['name' => 'Kiev'],
-            ['name' => 'Kropivnitskij'],
-            ['name' => 'Kharkov'],
-            ['name' => 'Dnepr'],
+            ['name' => 'Киев'],
+            ['name' => 'Париж'],
+            ['name' => 'Минск'],
+            ['name' => 'Берлин'],
         ];
         $names = [
-            ['fio' => 'Pid O.A.', 'city_id' => 1],
-            ['fio' => 'Retly J.F.', 'city_id' => 2],
-            ['fio' => 'Harny L.P.', 'city_id' => 3],
-            ['fio' => 'Larry K.L.', 'city_id' => 4],
-            ['fio' => 'Guffy M.G.', 'city_id' => 3],
-            ['fio' => 'Dolly B.F.', 'city_id' => 2],
+            ['fio' => 'Олег Поднебесный', 'city_id' => 1, 'country_id' => 0],
+            ['fio' => 'Сергей Петренко', 'city_id' => 2, 'country_id' => 0],
+            ['fio' => 'Макар Сидоренко', 'city_id' => 3, 'country_id' => 0],
+            ['fio' => 'Петр Иванов', 'city_id' => 4, 'country_id' => 0],
+            ['fio' => 'Максим Абраменко', 'city_id' => 3, 'country_id' => 0],
+            ['fio' => 'Александр Вишня', 'city_id' => 2, 'country_id' => 0],
         ];
         $phones = [
-            ['name_id' => 1, 'number' => '54-54-5454'],
-            ['name_id' => 1, 'number' => '684-54-874'],
-            ['name_id' => 1, 'number' => '554-5454-5'],
-            ['name_id' => 2, 'number' => '94-454-454'],
-            ['name_id' => 2, 'number' => '625541-545'],
-            ['name_id' => 3, 'number' => '874-542-54'],
-            ['name_id' => 4, 'number' => '684-544-45'],
-            ['name_id' => 5, 'number' => '984-4547-4'],
-            ['name_id' => 5, 'number' => '85454-5845'],
-            ['name_id' => 6, 'number' => '44-845-545'],
-            ['name_id' => 6, 'number' => '8974-545-5'],
+            ['name_id' => 1, 'number' => '5454545488'],
+            ['name_id' => 1, 'number' => '6845487484'],
+            ['name_id' => 1, 'number' => '5545454565'],
+            ['name_id' => 2, 'number' => '9445445454'],
+            ['name_id' => 2, 'number' => '6255415452'],
+            ['name_id' => 3, 'number' => '8745425454'],
+            ['name_id' => 4, 'number' => '6845444595'],
+            ['name_id' => 5, 'number' => '9844547454'],
+            ['name_id' => 5, 'number' => '8545458455'],
+            ['name_id' => 6, 'number' => '4484554521'],
+            ['name_id' => 6, 'number' => '8974545554'],
         ];
-        foreach ($cities as $city) {
+        /*foreach ($cities as $city) {
             $newCity = new City();
             $newCity->attributes = $city;
             $newCity->save();
         }
-        echo "Cities loaded! \n";
+        echo "Cities loaded! \n";*/
         foreach ($names as $name) {
             $newName = new Name();
             $city = City::findOne([
@@ -69,9 +69,10 @@ class SeedController extends Controller
             if ($city !== NULL) {
                 echo "Find ".$city->name."\n";
                 $name['city_id'] = $city->id;
+                $name['country_id'] = $city->country_id;
+                $newName->attributes = $name;
+                $newName->save();
             }
-            $newName->attributes = $name;
-            $newName->save();
         }
         echo "Names loaded! \n";
         foreach ($phones as $phone) {
@@ -82,10 +83,9 @@ class SeedController extends Controller
             if ($name !== NULL) {
                 echo "Find ".$name->fio."\n";
                 $phone['name_id'] = $name->id;
+                $newPhone->attributes = $phone;
+                $newPhone->save();
             }
-
-            $newPhone->attributes = $phone;
-            $newPhone->save();
         }
         echo "Phones loaded! \n";
         echo "===  Done  === \n";

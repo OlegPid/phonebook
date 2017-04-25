@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use app\models\City;
+use app\models\Country;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\NameSearch */
@@ -17,7 +18,15 @@ use app\models\City;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-            'fio',
+            [
+                'attribute'=>'country_id',
+                'label'=>'Country',
+                'format'=>'text', // Возможные варианты: raw, html
+                'content'=>function($data){
+                    return $data->getCountryName();
+                },
+                'filter' => Country::getCountriesList()
+            ],
             [
                 'attribute'=>'city_id',
                 'label'=>'City',
@@ -27,8 +36,9 @@ use app\models\City;
                 },
                 'filter' => City::getCitiesList()
             ],
+            'fio',
             [
-                'attribute'=>'phones',
+                'attribute'=>'phone_search',
                 'label'=>'Phones',
                 'format'=>'html', // Возможные варианты: raw, html, text
                 'content'=>function($data){

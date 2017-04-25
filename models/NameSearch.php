@@ -12,15 +12,15 @@ use app\models\Name;
  */
 class NameSearch extends Name
 {
-    public $phones;
+    public $phone_search;
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['id', 'city_id'], 'integer'],
-            [['fio'], 'safe'],
+            [['id', 'city_id', 'country_id'], 'integer'],
+            [['phone_search', 'fio'], 'safe'],
         ];
     }
 
@@ -42,7 +42,7 @@ class NameSearch extends Name
      */
     public function search($params)
     {
-        $query = Name::find();
+        $query = Name::find()->joinWith(['phones']);
 
         // add conditions that should always apply here
         $dataProvider = new ActiveDataProvider([
@@ -61,9 +61,11 @@ class NameSearch extends Name
         $query->andFilterWhere([
             'id' => $this->id,
             'city_id' => $this->city_id,
+            'country_id' => $this->country_id,
         ]);
 
         $query->andFilterWhere(['like', 'fio', $this->fio]);
+        $query->andFilterWhere(['like', 'number', $this->phone_search]);
         return $dataProvider;
     }
 }

@@ -4,19 +4,18 @@ use yii\helpers\Html;
 
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Name */
+/* @var $model app\models\Country */
 
-$this->title = 'Create Name';
-$this->params['breadcrumbs'][] = ['label' => 'Names', 'url' => ['index']];
+$this->title = 'Create Country';
+$this->params['breadcrumbs'][] = ['label' => 'Countries', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="name-create">
+<div class="country-create">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
     <?= $this->render('_form', [
         'model' => $model,
-        'modelsPhone' => $modelsPhone,
     ]) ?>
 
 </div>

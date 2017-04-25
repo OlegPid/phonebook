@@ -5,12 +5,12 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\City;
+use app\models\Country;
 
 /**
- * CitySearch represents the model behind the search form about `app\models\City`.
+ * CountrySearch represents the model behind the search form about `app\models\Country`.
  */
-class CitySearch extends City
+class CountrySearch extends Country
 {
     /**
      * @inheritdoc
@@ -19,7 +19,7 @@ class CitySearch extends City
     {
         return [
             [['id'], 'integer'],
-            [['name', 'country_id'], 'safe'],
+            [['name'], 'safe'],
         ];
     }
 
@@ -41,7 +41,7 @@ class CitySearch extends City
      */
     public function search($params)
     {
-        $query = City::find();
+        $query = Country::find();
 
         // add conditions that should always apply here
 
@@ -60,7 +60,6 @@ class CitySearch extends City
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'country_id' => $this->country_id,
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name]);

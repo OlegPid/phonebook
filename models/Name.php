@@ -35,6 +35,7 @@ class Name extends \yii\db\ActiveRecord
             [['fio'], 'required'],
             [['fio'], 'string', 'max' => 255],
             [['city_id'], 'exist', 'skipOnError' => true, 'targetClass' => City::className(), 'targetAttribute' => ['city_id' => 'id']],
+            [['country_id'], 'exist', 'skipOnError' => true, 'targetClass' => Country::className(), 'targetAttribute' => ['country_id' => 'id']],
         ];
     }
 
@@ -46,6 +47,7 @@ class Name extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'city_id' => 'City',
+            'country_id' => 'Country',
             'fio' => 'FIO',
         ];
     }
@@ -57,11 +59,22 @@ class Name extends \yii\db\ActiveRecord
     {
         return $this->hasOne(City::className(), ['id' => 'city_id']);
     }
+    
     public function getCityName()
     {
         return $this->city->name;
     }
 
+    public function getCountry()
+    {
+        return $this->hasOne(Country::className(), ['id' => 'country_id']);
+    }
+
+    public function getCountryName()
+    {
+        return $this->country->name;
+    }
+    
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -69,6 +82,7 @@ class Name extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Phone::className(), ['name_id' => 'id']);
     }
+
     public function getPhonesList()
     {
         $phones = $this->phones;

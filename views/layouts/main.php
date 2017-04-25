@@ -36,9 +36,11 @@ AppAsset::register($this);
     $items = [];
     if (!Yii::$app->user->isGuest) {
         $items[] = ['label' => 'Home', 'url' => ['/site/index']];
-        $items[] = ['label' => 'Edit names', 'url' => ['/name/index']];
-        $items[] = ['label' => 'Edit phones', 'url' => ['/phone/index']];
-        $items[] = ['label' => 'Edit cities', 'url' => ['/city/index']];
+        $items[] = ['label' => 'Names', 'url' => ['/name/index']];
+        $items[] = ['label' => 'Phones', 'url' => ['/phone/index']];
+        $items[] = ['label' => 'Cities', 'url' => ['/city/index']];
+        $items[] = ['label' => 'Countries', 'url' => ['/country/index']];
+        $items[] = ['label' => 'For select names list', 'url' => ['/names-list/index']];
         $items[] = '<li>'
                 . Html::beginForm(['/site/logout'], 'post')
                 . Html::submitButton(
