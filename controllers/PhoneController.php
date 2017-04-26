@@ -9,7 +9,7 @@ use app\models\PhoneSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
+use \yii\helpers\Url;
 /**
  * PhoneController implements the CRUD actions for Phone model.
  */
@@ -77,10 +77,10 @@ class PhoneController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             //return $this->redirect(['view', 'id' => $model->id]);
             //return $this->redirect(Yii::$app->request->referrer);
-            $url = Url::previous(Yii::app()->controller->id.'_create');
+            $url = Url::previous(Yii::$app->controller->id.'_create');
             return $this->redirect(isset($url) ? $url : ['index']);
         } else {
-            Url::remember(Yii::$app->request->referrer,Yii::app()->controller->id.'_create');
+            Url::remember(Yii::$app->request->referrer,Yii::$app->controller->id.'_create');
             return $this->render('create', [
                 'model' => $model,
             ]);
@@ -100,10 +100,10 @@ class PhoneController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             //return $this->redirect(['view', 'id' => $model->id]);
             //return $this->redirect(Yii::$app->request->referrer);
-            $url = Url::previous(Yii::app()->controller->id.'_update');
+            $url = Url::previous(Yii::$app->controller->id.'_update');
             return $this->redirect(isset($url) ? $url : ['index']);
         } else {
-            Url::remember(Yii::$app->request->referrer,Yii::app()->controller->id.'_update');
+            Url::remember(Yii::$app->request->referrer,Yii::$app->controller->id.'_update');
             return $this->render('update', [
                 'model' => $model,
             ]);

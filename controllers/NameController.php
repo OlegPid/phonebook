@@ -16,6 +16,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use kartik\widgets\DepDrop;
+use \yii\helpers\Url;
 
 /**
  * NameController implements the CRUD actions for Name model.
@@ -129,7 +130,7 @@ class NameController extends Controller
                         $transaction->commit();
                         //return $this->redirect(['view', 'id' => $model->id]);
                         //return $this->redirect(Yii::$app->request->referrer);
-                        $url = Url::previous(Yii::app()->controller->id.'_create');
+                        $url = Url::previous(Yii::$app->controller->id.'_create');
                         return $this->redirect(isset($url) ? $url : ['index']);
                     }
                 } catch (Exception $e) {
@@ -137,7 +138,7 @@ class NameController extends Controller
                 }
             }
         }
-        Url::remember(Yii::$app->request->referrer,Yii::app()->controller->id.'_create');
+        Url::remember(Yii::$app->request->referrer,Yii::$app->controller->id.'_create');
         return $this->render('create', [
             'model' => $model,
             'modelsPhone' => (empty($modelsPhone)) ? [new Phone()] : $modelsPhone
@@ -207,7 +208,7 @@ class NameController extends Controller
                         $transaction->commit();
                         //return $this->redirect(['view', 'id' => $model->id]);
                         //return $this->redirect(Yii::$app->request->referrer);
-                        $url = Url::previous(Yii::app()->controller->id.'_update');
+                        $url = Url::previous(Yii::$app->controller->id.'_update');
                         return $this->redirect(isset($url) ? $url : ['index']);
                     }
                 } catch (Exception $e) {
@@ -215,7 +216,7 @@ class NameController extends Controller
                 }
             }
         }
-        Url::remember(Yii::$app->request->referrer,Yii::app()->controller->id.'_update');
+        Url::remember(Yii::$app->request->referrer,Yii::$app->controller->id.'_update');
         return $this->render('update', [
             'model' => $model,
             'modelsPhone' => (empty($modelsPhone)) ? [new Phone()] : $modelsPhone
