@@ -77,8 +77,11 @@ class CityController extends Controller
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             //return $this->redirect(['view', 'id' => $model->id]);
-            return $this->redirect(Yii::$app->request->referrer);
+            //return $this->redirect(Yii::$app->request->referrer);
+            $url = Url::previous(Yii::app()->controller->id.'_create');
+            return $this->redirect(isset($url) ? $url : ['index']);
         } else {
+            Url::remember(Yii::$app->request->referrer,Yii::app()->controller->id.'_create');
             return $this->render('create', [
                 'model' => $model,
             ]);
@@ -97,8 +100,11 @@ class CityController extends Controller
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             //return $this->redirect(['view', 'id' => $model->id]);
-            return $this->redirect(Yii::$app->request->referrer);
+            //return $this->redirect(Yii::$app->request->referrer);
+            $url = Url::previous(Yii::app()->controller->id.'_update');
+            return $this->redirect(isset($url) ? $url : ['index']);
         } else {
+            Url::remember(Yii::$app->request->referrer,Yii::app()->controller->id.'_update');
             return $this->render('update', [
                 'model' => $model,
             ]);
@@ -115,7 +121,8 @@ class CityController extends Controller
     {
         $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
+        //return $this->redirect(['index']);
+        return $this->redirect(Yii::$app->request->referrer);
     }
 
     /**
