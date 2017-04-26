@@ -5,10 +5,10 @@ $params = require(__DIR__ . '/params.php');
 $config = [
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
-    'aliases' => [
+    /*'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
-    ],
+    ],*/
     'bootstrap' => ['log'],
     'components' => [
         'request' => [
@@ -53,6 +53,13 @@ $config = [
     ],
     'params' => $params,
 ];
+if (strcasecmp($_SERVER['SERVER_ADDR'], '127.0.0.1') !== 0) {
+    $config['aliases'] = [
+        '@bower' => '@vendor/bower-asset',
+        '@npm'   => '@vendor/npm-asset',
+    ];
+}
+
 
 if (YII_ENV_DEV) {
     // configuration adjustments for 'dev' environment

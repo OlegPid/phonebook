@@ -9,11 +9,13 @@ use app\models\NamesList;
 use wbraganca\dynamicform\DynamicFormWidget;
 use yii\jui\AutoComplete;
 use kartik\depdrop\DepDrop;
+use yii\web\JsExpression;
 /* @var $this yii\web\View */
 /* @var $model app\models\Name */
 /* @var $form yii\widgets\ActiveForm */
 
-$js = '
+$js = "var tags =['".implode("','",NamesList::getList())."'];".
+'
 jQuery(".dynamicform_wrapper").on("afterInsert", function(e, item) {
     jQuery(".dynamicform_wrapper .panel-title-phone").each(function(index) {
         jQuery(this).html("Phone: " + (index + 1))
@@ -69,16 +71,22 @@ $this->registerJs($js);
     <div class="row">
         <div class="col-sm-12">
             <?= $form->field($model, 'fio')->textInput(['maxlength' => true])
-                                                ->widget(
-                                                    AutoComplete::className(), [
-                                                        'clientOptions' => [
-                                                            'source' => NamesList::getList(),
-                                                            'minLength'=>'2',
-                                                        ],
-                                                        'options'=>[
-                                                            'class'=>'form-control'
-                                                        ]
-                                                ]);
+                ->widget(
+                    AutoComplete::className(), [
+                        'clientOptions' => [
+                            'source' => new JsExpression(
+                                            'function( request, response ) {
+                                                var matcher = new RegExp( "^" + $.ui.autocomplete.escapeRegex( request.term ), "i" );
+                                                response( $.grep( tags, function( item ){
+                                                    return matcher.test( item );
+                                                }) );
+                                            }'),
+                            'minLength'=>'2',
+                        ],
+                        'options'=>[
+                            'class'=>'form-control'
+                        ]
+                ]);
             ?>
         </div>
     </div>

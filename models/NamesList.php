@@ -3,7 +3,7 @@
 namespace app\models;
 
 use Yii;
-
+use \yii\helpers\ArrayHelper;
 /**
  * This is the model class for table "names_list".
  *
@@ -43,9 +43,19 @@ class NamesList extends \yii\db\ActiveRecord
     }
     public static function getList()
     {
-        return NamesList::find()
-            ->select(['name as value', 'name as label'])
+   /*      return NamesList::find()
+           ->select(['name as value', 'name as label'])
             ->asArray()
             ->all();
+                ->select(['name_id'])
+                ->where(['like', 'number', $this->phone_search])
+                ->asArray()
+                ->all();*/
+        $list =  NamesList::find()                       
+            ->select(['name'])
+            ->asArray()
+            ->all();
+        return ArrayHelper::getColumn($list, 'name');
+
     }      
 }

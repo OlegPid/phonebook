@@ -127,7 +127,8 @@ class NameController extends Controller
 
                     if ($flag) {
                         $transaction->commit();
-                        return $this->redirect(['view', 'id' => $model->id]);
+                        //return $this->redirect(['view', 'id' => $model->id]);
+                        return $this->redirect(Yii::$app->request->referrer);
                     }
                 } catch (Exception $e) {
                     $transaction->rollBack();
@@ -202,7 +203,8 @@ class NameController extends Controller
                     }
                     if ($flag) {
                         $transaction->commit();
-                        return $this->redirect(['view', 'id' => $model->id]);
+                        //return $this->redirect(['view', 'id' => $model->id]);
+                        return $this->redirect(Yii::$app->request->referrer);
                     }
                 } catch (Exception $e) {
                     $transaction->rollBack();
@@ -226,7 +228,8 @@ class NameController extends Controller
     {
         $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
+        //return $this->redirect(['index']);
+        return $this->redirect(Yii::$app->request->referrer);
     }
 
     /**
