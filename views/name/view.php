@@ -24,7 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ]) ?>
     </p>
-
+    <?= Html::img('@web/avatars/'.($model->img ? $model->img : 'no_img.jpg' ), ['alt' => 'Аватар', 'id' => 'avatar', 'style' => 'border : 2px solid #000000;', 'height' => '300px', 'width' => '300px']) ?>
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [

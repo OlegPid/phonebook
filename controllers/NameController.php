@@ -12,11 +12,13 @@ use app\models\NameSearch;
 use app\models\Phone;
 use app\models\City;
 use app\models\PhoneSearch;
+use app\models\UploadImage;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use kartik\widgets\DepDrop;
 use \yii\helpers\Url;
+use yii\web\UploadedFile;
 
 /**
  * NameController implements the CRUD actions for Name model.
@@ -101,9 +103,17 @@ class NameController extends Controller
         }*/
 
         $model = new Name();
+        $model_img = new UploadImage();
         $modelsPhone = [new Phone()];
 
         if ($model->load(Yii::$app->request->post())) {
+            /*$model->imageFile = UploadedFile::getInstance($model, 'imageFile');
+            if ($model->uploadAvatar()) {
+                //$model->img = $model->imageFile->baseName . '.' . $model->imageFile->extension;
+                 //$model->img = $model->imageFile;
+                // file is uploaded successfully
+                //return;
+            }*/
 
             $modelsPhone = Model::createMultiple(Phone::classname());
             Model::loadMultiple($modelsPhone, Yii::$app->request->post());
@@ -141,6 +151,7 @@ class NameController extends Controller
         Url::remember(Yii::$app->request->referrer,Yii::$app->controller->id.'_create');
         return $this->render('create', [
             'model' => $model,
+            'model_img' => $model_img,
             'modelsPhone' => (empty($modelsPhone)) ? [new Phone()] : $modelsPhone
         ]);        
     }
@@ -174,10 +185,10 @@ class NameController extends Controller
                 'phoneDataProvider' => $phoneDataProvider,
             ]);
         }*/
-    
+        $model_img = new UploadImage();
         $model = $this->findModel($id);
         $modelsPhone = $model->phones;
-
+        $model_img->img = $model->img;
         if ($model->load(Yii::$app->request->post())) {
 
             $oldIDs = ArrayHelper::map($modelsPhone, 'id', 'id');
@@ -219,6 +230,7 @@ class NameController extends Controller
         Url::remember(Yii::$app->request->referrer,Yii::$app->controller->id.'_update');
         return $this->render('update', [
             'model' => $model,
+            'model_img' => $model_img,
             'modelsPhone' => (empty($modelsPhone)) ? [new Phone()] : $modelsPhone
         ]);
     }
@@ -298,5 +310,41 @@ class NameController extends Controller
         }
         echo Json::encode(['output'=>'', 'selected'=>'']);
         //return Json::encode(['output'=>'', 'selected'=>'']);
+    }
+
+    public function actionLoadImg() {
+        $model_img = new UploadImage();
+        $model_img->imageFile = UploadedFile::getInstance($model_img, 'imageFile');
+        if ($model_img->upload()) {
+            // file is uploaded successfully
+            echo Json::encode(['src' => $model_img->img]);
+            return;            
+            }
+        //return $this->render('_form-img', [
+            //'model' => $model,
+            //'model' => $model_img,
+            //'modelsPhone' => (empty($modelsPhone)) ? [new Phone()] : $modelsPhone
+        //]);  
+             //   return $model_img;
+        echo Json::encode(['src' => 'no_img.jpg']);
+        return;
     }    
+    public function actionDeleteImg() {
+        if (isset($_POST['file_name'])) {
+            $path  = Yii::getAlias('@app').'/web/avatars/'.$_POST['file_name'];
+            unlink($path);
+            //echo Json::encode(['src' => 'no_img.jpg', 'my_data' => $_POST['fl_nm']]);
+            //return;            
+        }
+            echo Json::encode(['src' => 'no_img.jpg']);            
+            return; 
+          //  }
+        //return $this->render('_form-img', [
+            //'model' => $model,
+            //'model' => $model_img,
+            //'modelsPhone' => (empty($modelsPhone)) ? [new Phone()] : $modelsPhone
+        //]);  
+             //   return $model_img;
+        //return;
+    } 
 }

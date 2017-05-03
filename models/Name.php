@@ -17,6 +17,7 @@ use \yii\helpers\ArrayHelper;
  */
 class Name extends \yii\db\ActiveRecord
 {
+    public $imageFile;
     /**
      * @inheritdoc
      */
@@ -33,9 +34,11 @@ class Name extends \yii\db\ActiveRecord
         return [
             [['city_id'], 'integer'],
             [['fio', 'city_id', 'country_id'], 'required'],
-            [['fio'], 'string', 'max' => 255],
+            [['fio', 'img'], 'string', 'max' => 255],
             [['city_id'], 'exist', 'skipOnError' => true, 'targetClass' => City::className(), 'targetAttribute' => ['city_id' => 'id']],
             [['country_id'], 'exist', 'skipOnError' => true, 'targetClass' => Country::className(), 'targetAttribute' => ['country_id' => 'id']],
+            //[['imageFile'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg, gif'],
+            [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, gif'],
         ];
     }
 
@@ -98,5 +101,17 @@ class Name extends \yii\db\ActiveRecord
             ->select(['id', 'fio'])
             ->all();
          return ArrayHelper::map($names, 'id', 'fio');
-    }  
+    }
+    public function uploadAvatar()
+    {
+        if ($this->validate()) {
+            $this->imageFile->saveAs( Yii::getAlias('@app').'/web/avatars/' . $this->imageFile->baseName . '.' . $this->imageFile->extension);
+            $this->img = $this->imageFile->baseName . '.' . $this->imageFile->extension;
+            $this->imageFile = NULL;
+            /*$this->imageFile = Yii::getAlias('@app').'/web/avatars/' . $this->imageFile->baseName . '.' . $this->imageFile->extension;*/
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

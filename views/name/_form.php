@@ -33,6 +33,7 @@ $this->registerJs($js);
 ?>
 <div class="name-form">
  <?php $form = ActiveForm::begin(['id' => 'dynamic-form']); ?>
+ <br>
     <div class="row">
         <div class="col-sm-6">
             <?= $form->field($model, 'country_id')->dropdownList(Country::getCountriesList(),
@@ -90,6 +91,9 @@ $this->registerJs($js);
             ?>
         </div>
     </div>
+
+
+
     <div class="padding-v-md">
         <div class="line line-dashed"></div>
     </div>
