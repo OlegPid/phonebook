@@ -10,6 +10,7 @@ use app\models\LoginForm;
 use app\models\ContactForm;
 use app\models\Name;
 use app\models\NameSearch;
+use app\models\PhoneSearch;
 
 class SiteController extends Controller
 {
@@ -70,6 +71,32 @@ class SiteController extends Controller
             'dataProvider' => $dataProvider,
         ]);
     }
+    /**
+     * Displays a single Name model.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionView($id)
+    {
+        $model = $this->findModel($id);
+        //$phones = $model->phones;
+        $searchModel = new PhoneSearch();
+        $dataProvider = $searchModel->search([
+            'PhoneSearch' => [
+                'name_id' => $id
+            ]
+        ]);
+        return $this->render('view', [
+            'model' => $model,
+            //'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+
+        /*return $this->render('view', [
+            'model' => $model,
+            'phones' => $phones,
+        ]);*/
+    }
 
     /**
      * Login action.
@@ -129,5 +156,20 @@ class SiteController extends Controller
     public function actionAbout()
     {
         return $this->render('about');
+    }
+    /**
+     * Finds the Name model based on its primary key value.
+     * If the model is not found, a 404 HTTP exception will be thrown.
+     * @param integer $id
+     * @return Name the loaded model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    protected function findModel($id)
+    {
+        if (($model = Name::findOne($id)) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
     }
 }

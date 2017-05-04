@@ -168,4 +168,12 @@ class Name extends \yii\db\ActiveRecord
             ->all();
          return ArrayHelper::map($names, 'id', 'fio');
     }
+    public function getImg()
+    {
+        $path  = Yii::getAlias('@app').'/web/avatars/';
+        if (!empty($this->img) && file_exists($path.$this->img)){
+            return '/avatars/'.$this->img;
+        }
+        return '/avatars/no_img.jpg';
+    }
 }

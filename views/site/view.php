@@ -14,17 +14,6 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="name-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
-
-    <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
-        ]) ?>
-    </p>
     <div class="row">
         <div class="col-sm-4">
             <?= Html::img($model->getImg(), [
@@ -52,11 +41,10 @@ $this->params['breadcrumbs'][] = $this->title;
             <?= GridView::widget([
                 'dataProvider' => $dataProvider,
                 //'filterModel' => $searchModel,
-                'summary' => false,
+                'layout'=>"{items}",
                 'columns' => [
                     ['class' => 'yii\grid\SerialColumn'],
                     'number',
-                    ['class' => 'yii\grid\ActionColumn',  'controller' => 'phone'],
                 ],
             ]); ?>
         </div>

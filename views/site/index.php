@@ -54,7 +54,13 @@ use app\models\Country;
                     $iconAvatar = '<span class="glyphicon glyphicon-picture "></span>';
                     return $data->img ? $iconAvatar : '';
                 },
-            ],              
+            ],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                //'header'=>'Действия',
+                'headerOptions' => ['width' => '20'],
+                'template' => '{view}',
+            ],
                      
         ],
     ]); ?>

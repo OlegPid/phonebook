@@ -10,6 +10,7 @@ use yii\helpers\Json;
 use app\models\Name;
 use app\models\NameSearch;
 use app\models\Phone;
+use app\models\PhoneSearch;
 use app\models\City;
 use app\models\UploadImage;
 use yii\web\Controller;
@@ -75,11 +76,17 @@ class NameController extends Controller
     public function actionView($id)
     {
         $model = $this->findModel($id);
-        $phones = $model->phones;
-
+        //$phones = $model->phones;
+        $searchModel = new PhoneSearch();
+        $dataProvider = $searchModel->search([
+            'PhoneSearch' => [
+                'name_id' => $id
+            ]
+        ]);
         return $this->render('view', [
             'model' => $model,
-            'phones' => $phones,
+            //'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
         ]);
     }
 
