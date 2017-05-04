@@ -4,7 +4,6 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 use app\models\Country;
-use app\models\City;
 use app\models\NamesList;
 use wbraganca\dynamicform\DynamicFormWidget;
 use yii\jui\AutoComplete;
@@ -42,8 +41,6 @@ $this->registerJs($js);
                 'id'=>'cat-id',
                 ]);
             ?>
-
-
         </div>
         <div class="col-sm-6">
             <?= Html::hiddenInput('input-type-1', 'Additional value 1', ['id'=>'input-type-1']);?>
@@ -148,9 +145,9 @@ $this->registerJs($js);
     <?php DynamicFormWidget::end(); ?>
 
     <div class="form-group">
-        <?= Html::submitButton($modelPhone->isNewRecord ? 'Create' : 'Update', ['class' => 'btn btn-primary']) ?>
+        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => 'btn btn-primary']) ?>
     </div>
-
+    <?= $form->field($model, 'img')->label(false)->hiddenInput(['id' => 'name-img',]) ?>
     <?php ActiveForm::end(); ?>
 
 </div>

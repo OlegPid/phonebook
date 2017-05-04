@@ -35,8 +35,9 @@ $(function(){
           success: function(json){
             if(json){
                 //console.log(json['src']);
-                $('#avatar').attr('src', '/avatars/'+json['src']);
+                $('#avatar').attr('src', '/avatars/no_img.jpg');//+json['src']);
                 $('#name-img').val('');
+                $('#img-txt').val('');
                 $('#file').val('');
                 if(json['my_data']){
                     console.log(json['data']);
@@ -46,7 +47,7 @@ $(function(){
         });
     });
 
-  $('#img-form').on('submit', function(e){
+  $('#img-form').on('beforeSubmit', function(e){
     e.preventDefault();
     var that = $(this),
     formData = new FormData(that.get(0)); // создаем новый экземпляр объекта и передаем ему нашу форму (*)
@@ -60,11 +61,13 @@ $(function(){
       success: function(json){
         if(json){
             //console.log(json['src']);
-            $('#avatar').attr('src', '/avatars/'+json['src']);
+            $('#avatar').attr('src', '/tmp_avatars/'+json['src']);
             $('#name-img').val(json['src']);
+            $('#img-txt').val(json['src']);
         }
       }
     });
+    return false;
   });
 });";
 
@@ -74,15 +77,23 @@ $this->registerJs($js);
 ?>
 <div class="img-form">
     <?php $form = ActiveForm::begin(['action' => 'load-img', 'id' => 'img-form', 'options' => ['enctype' => 'multipart/form-data']]); ?>
+        <?= $form->field($model, 'img')->label(false)->hiddenInput(['id' => 'img-txt',]) ?>
         <div class="row">
             <div class="col-sm-6">
-                <?= Html::img('@web/avatars/'.($model->img ? $model->img : 'no_img.jpg' ), ['alt' => 'Аватар', 'id' => 'avatar', 'style' => 'border : 2px solid #000000;', 'height' => '300px', 'width' => '300px']) ?>
+                <?= Html::img($model->getImg(),[
+                        'alt' => 'Аватар',
+                        'id' => 'avatar',
+                        'style' => 'border : 2px solid #000000;',
+                        'height' => '300px',
+                        'width' => '300px'
+                        ])
+                ?>
             </div>
         </div>
         <br>
         <div class="row">
             <div class="col-sm-2">
-            <label id="mylabel" style="height: 34px" class="btn btn-info">
+            <label style="height: 34px" class="btn btn-info">
             <?= $form->field($model, 'imageFile')->fileInput(['id' => 'file', 'style' => 'display : none;']) ?></label>
             </div>
    
@@ -91,6 +102,5 @@ $this->registerJs($js);
             </div>
 
         </div>    
-        <input type="hidden" form="dynamic-form" id="name-img" name="Name[img]">
         <?php ActiveForm::end(); ?>
 </div>

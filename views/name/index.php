@@ -51,6 +51,16 @@ $this->params['breadcrumbs'][] = $this->title;
                     return $data->getPhonesList();
                 },
             ],            
+            [
+                'attribute'=>'img',
+                'label'=>'Avatar',
+                'format'=>'html', // Возможные варианты: raw, html, text
+                'contentOptions'=>['align'=>'center'],
+                'content'=>function($data){
+                    $iconAvatar = '<span class="glyphicon glyphicon-picture "></span>';
+                    return $data->img ? $iconAvatar : '';
+                },
+            ],            
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>

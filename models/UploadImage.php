@@ -5,6 +5,10 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use yii\web\UploadedFile;
+use yii\imagine\Image;
+use Imagine\Image\Box;
+use Imagine\Image\ImageInterface;
+
 
 class UploadImage extends Model
 {
@@ -26,26 +30,39 @@ class UploadImage extends Model
         return [
             'imageFile' => 'Load image',
         ];
-    }    
+    }
+
+    /**
+     * @param $oldFileName
+     * @return bool
+     */
     public function upload()
     {
- /*       if ($this->validate()) {
-            $this->imageFile->saveAs('uploads/' . $this->imageFile->baseName . '.' . $this->imageFile->extension);
-            return true;
-        } else {
-            return false;
-        }*/
         if ($this->validate()) {
-            $path  = Yii::getAlias('@app').'/web/avatars/' . $this->imageFile->baseName . '.' . $this->imageFile->extension; 
-            $this->imageFile->saveAs($path);
-            $this->img = $this->imageFile->baseName . '.' . $this->imageFile->extension;
-            //$this->img = $path;
-            //$this->imageFile = NULL;
-            $this->imageFile = $path;
-            /*$this->imageFile = Yii::getAlias('@app').'/web/avatars/' . $this->imageFile->baseName . '.' . $this->imageFile->extension;*/
+            $path  = Yii::getAlias('@app') . '/web/tmp_avatars/';
+            $fileName = uniqid('', true) . '.' . $this->imageFile->extension;
+            $this->imageFile->saveAs($path.$fileName);
+            $img = Image::getImagine()->open($path.$fileName);
+            //$img->thumbnail(new Box(300,300), ImageInterface::THUMBNAIL_OUTBOUND, false)
+            $img->thumbnail(new Box(300,300))
+                ->save($path.$fileName, ['quality' => 75]);
+            $this->img =$fileName;
+            $this->imageFile = $path.$fileName;
             return true;
         } else {
             return false;
         }        
+    }
+
+    /**
+     *
+     */
+    public function getImg()
+    {
+        $path  = Yii::getAlias('@app').'/web/avatars/';
+        if (!empty($this->img) && file_exists($path.$this->img)){
+            return '/avatars/'.$this->img;
+        }
+        return '/avatars/no_img.jpg';
     }
 }

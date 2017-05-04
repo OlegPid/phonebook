@@ -44,7 +44,18 @@ use app\models\Country;
                 'content'=>function($data){
                     return $data->getPhonesList();
                 },
-            ],            
+            ],  
+            [
+                'attribute'=>'img',
+                'label'=>'Avatar',
+                'format'=>'html', // Возможные варианты: raw, html, text
+                'contentOptions'=>['align'=>'center'],
+                'content'=>function($data){
+                    $iconAvatar = '<span class="glyphicon glyphicon-picture "></span>';
+                    return $data->img ? $iconAvatar : '';
+                },
+            ],              
+                     
         ],
     ]); ?>
 </div>

@@ -11,12 +11,10 @@ use app\models\Name;
 use app\models\NameSearch;
 use app\models\Phone;
 use app\models\City;
-use app\models\PhoneSearch;
 use app\models\UploadImage;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use kartik\widgets\DepDrop;
 use \yii\helpers\Url;
 use yii\web\UploadedFile;
 
@@ -92,29 +90,11 @@ class NameController extends Controller
      */
     public function actionCreate()
     {
-        /*$model = new Name();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
-        }*/
-
         $model = new Name();
         $model_img = new UploadImage();
         $modelsPhone = [new Phone()];
 
         if ($model->load(Yii::$app->request->post())) {
-            /*$model->imageFile = UploadedFile::getInstance($model, 'imageFile');
-            if ($model->uploadAvatar()) {
-                //$model->img = $model->imageFile->baseName . '.' . $model->imageFile->extension;
-                 //$model->img = $model->imageFile;
-                // file is uploaded successfully
-                //return;
-            }*/
-
             $modelsPhone = Model::createMultiple(Phone::classname());
             Model::loadMultiple($modelsPhone, Yii::$app->request->post());
 
@@ -138,8 +118,6 @@ class NameController extends Controller
 
                     if ($flag) {
                         $transaction->commit();
-                        //return $this->redirect(['view', 'id' => $model->id]);
-                        //return $this->redirect(Yii::$app->request->referrer);
                         $url = Url::previous(Yii::$app->controller->id.'_create');
                         return $this->redirect(isset($url) ? $url : ['index']);
                     }
@@ -164,27 +142,6 @@ class NameController extends Controller
      */
     public function actionUpdate($id)
     {
-        /*$model = $this->findModel($id);
-        $searchModel = new PhoneSearch();
-        //$phoneDataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        //vd(Yii::$app->request->queryParams);
-        $queryParams = [
-                        'PhoneSearch' => [
-                        'name_id' =>  $id,
-                        'number' => '',
-                            ],
-                        'r' => 'phone',
-                    ];
-        $phoneDataProvider = $searchModel->search($queryParams);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-                'phoneDataProvider' => $phoneDataProvider,
-            ]);
-        }*/
         $model_img = new UploadImage();
         $model = $this->findModel($id);
         $modelsPhone = $model->phones;
@@ -217,8 +174,6 @@ class NameController extends Controller
                     }
                     if ($flag) {
                         $transaction->commit();
-                        //return $this->redirect(['view', 'id' => $model->id]);
-                        //return $this->redirect(Yii::$app->request->referrer);
                         $url = Url::previous(Yii::$app->controller->id.'_update');
                         return $this->redirect(isset($url) ? $url : ['index']);
                     }
@@ -244,8 +199,6 @@ class NameController extends Controller
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
-
-        //return $this->redirect(['index']);
         return $this->redirect(Yii::$app->request->referrer);
     }
 
@@ -265,9 +218,10 @@ class NameController extends Controller
         }
     }
 
+    /**
+     *
+     */
     public function actionSubcat1() {
-        $out = [];
-        $out_ = [];
         if (isset($_POST['depdrop_parents'])) {
             $parents = $_POST['depdrop_parents'];
             if ($parents != null) {
@@ -281,70 +235,45 @@ class NameController extends Controller
                 }
      
                 $out = City::getCitiesListForCountry($cat_id, $param1, $param2); 
-                // the getSubCatList1 function will query the database based on the
-                // cat_id, param1, param2 and return an array like below:
-                // [
-                //    'group1'=>[
-                //        ['id'=>'<sub-cat-id-1>', 'name'=>'<sub-cat-name1>'],
-                //        ['id'=>'<sub-cat_id_2>', 'name'=>'<sub-cat-name2>']
-                //    ],
-                //    'group2'=>[
-                //        ['id'=>'<sub-cat-id-3>', 'name'=>'<sub-cat-name3>'], 
-                //        ['id'=>'<sub-cat-id-4>', 'name'=>'<sub-cat-name4>']
-                //    ]            
-                // ]
-                /*foreach ($out as $key => $value) {
-                    $out_[] = ['id' => $key, 'name' => $value];
-                }*/
-                
                 $selected = '';//self::getDefaultSubCat($cat_id);
                 // the getDefaultSubCat function will query the database
                 // and return the default sub cat for the cat_id
                 
                 echo Json::encode(['output'=>$out, 'selected'=>$selected]);
-                //return Json::encode(['output'=>$out, 'selected'=>$selected]);
-                //echo ['output'=>$out, 'selected'=>$selected];
-                //return ['output'=>$out, 'selected'=>$selected];
                 return;
             }
         }
         echo Json::encode(['output'=>'', 'selected'=>'']);
-        //return Json::encode(['output'=>'', 'selected'=>'']);
     }
 
+    /**
+     *
+     */
     public function actionLoadImg() {
         $model_img = new UploadImage();
-        $model_img->imageFile = UploadedFile::getInstance($model_img, 'imageFile');
-        if ($model_img->upload()) {
-            // file is uploaded successfully
-            echo Json::encode(['src' => $model_img->img]);
-            return;            
+        if ($model_img->load(Yii::$app->request->post())) {
+            $model_img->imageFile = UploadedFile::getInstance($model_img, 'imageFile');
+            if ($model_img->upload()) {
+                // file is uploaded successfully
+                echo Json::encode(['src' => $model_img->img]);
+                return;            
             }
-        //return $this->render('_form-img', [
-            //'model' => $model,
-            //'model' => $model_img,
-            //'modelsPhone' => (empty($modelsPhone)) ? [new Phone()] : $modelsPhone
-        //]);  
-             //   return $model_img;
-        echo Json::encode(['src' => 'no_img.jpg']);
-        return;
-    }    
-    public function actionDeleteImg() {
-        if (isset($_POST['file_name'])) {
-            $path  = Yii::getAlias('@app').'/web/avatars/'.$_POST['file_name'];
-            unlink($path);
-            //echo Json::encode(['src' => 'no_img.jpg', 'my_data' => $_POST['fl_nm']]);
-            //return;            
         }
-            echo Json::encode(['src' => 'no_img.jpg']);            
-            return; 
-          //  }
-        //return $this->render('_form-img', [
-            //'model' => $model,
-            //'model' => $model_img,
-            //'modelsPhone' => (empty($modelsPhone)) ? [new Phone()] : $modelsPhone
-        //]);  
-             //   return $model_img;
-        //return;
-    } 
+        echo Json::encode(['src' => 'no-img']);
+        return;
+    }
+
+    /**
+     *
+     */
+    public function actionDeleteImg() {
+        if (!empty($_POST['file_name'])) {
+            $path  = Yii::getAlias('@app').'/web/tmp_avatars/'.$_POST['file_name'];
+            if (file_exists($path)){
+                unlink($path);
+            }
+        }
+        echo Json::encode(['src' => 'no-img']);
+        return;
+    }
 }
