@@ -206,7 +206,12 @@ class NameController extends Controller
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
-        return $this->redirect(Yii::$app->request->referrer);
+        $string = Yii::$app->request->referrer;
+        if(stristr($string, '/name/view') === FALSE) {
+            return $this->redirect($string);
+        } else {
+            return $this->redirect(['index']);
+        }
     }
 
     /**

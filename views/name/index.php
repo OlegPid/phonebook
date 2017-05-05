@@ -50,17 +50,22 @@ $this->params['breadcrumbs'][] = $this->title;
                 'content'=>function($data){
                     return $data->getPhonesList();
                 },
-            ],            
+            ],
             [
                 'attribute'=>'img',
                 'label'=>'Avatar',
-                'format'=>'html', // Возможные варианты: raw, html, text
                 'contentOptions'=>['align'=>'center'],
-                'content'=>function($data){
-                    $iconAvatar = '<span class="glyphicon glyphicon-picture "></span>';
-                    return $data->img ? $iconAvatar : '';
+                'format' => 'raw',
+                'value' => function($data) {
+                    if (!empty($data->img)){
+                        return Html::img($data->getImg(),[
+                            'alt' => 'yii2 - картинка в gridview',
+                            'style' => 'heigth:30px;width:30px;border-radius: 15px;',
+                        ]);
+                    }
+                    return '';
                 },
-            ],            
+            ],
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
