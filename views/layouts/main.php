@@ -41,6 +41,7 @@ AppAsset::register($this);
         $items[] = ['label' => 'Cities', 'url' => ['/city/index']];
         $items[] = ['label' => 'Countries', 'url' => ['/country/index']];
         $items[] = ['label' => 'For select names list', 'url' => ['/names-list/index']];
+        $items[] = ['label' => 'Charts', 'url' => ['/site/charts']];
         $items[] = '<li>'
                 . Html::beginForm(['/site/logout'], 'post')
                 . Html::submitButton(

@@ -4,7 +4,9 @@ namespace app\models;
 
 use Yii;
 use \yii\helpers\ArrayHelper;
-
+use \yii\behaviors\TimestampBehavior;
+use \yii\db\ActiveRecord;
+//use \yii\db\Expression;
 /**
  * This is the model class for table "name".
  *
@@ -38,6 +40,21 @@ class Name extends \yii\db\ActiveRecord
             [['country_id'], 'exist', 'skipOnError' => true, 'targetClass' => Country::className(), 'targetAttribute' => ['country_id' => 'id']],
         ];
     }
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => TimestampBehavior::className(),
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_at'],
+                    //ActiveRecord::EVENT_BEFORE_INSERT => ['created_at', 'updated_at'],
+                    //ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
+                ],
+                // если вместо метки времени UNIX используется datetime:
+                //'value' => new Expression('NOW()'),
+            ],
+        ];
+    }
 
     /**
      * @inheritdoc
@@ -49,6 +66,7 @@ class Name extends \yii\db\ActiveRecord
             'city_id' => 'City',
             'country_id' => 'Country',
             'fio' => 'FIO',
+            'created_at' => 'Created at',
         ];
     }
 
@@ -168,6 +186,10 @@ class Name extends \yii\db\ActiveRecord
             ->all();
          return ArrayHelper::map($names, 'id', 'fio');
     }
+
+    /**
+     * @return string
+     */
     public function getImg()
     {
         $path  = Yii::getAlias('@app').'/web/avatars/';
@@ -175,5 +197,14 @@ class Name extends \yii\db\ActiveRecord
             return '/avatars/'.$this->img;
         }
         return '/avatars/no_img.jpg';
+    }
+
+
+    /**
+     * @return false|string
+     */
+    public function getCreatedDate()
+    {
+        return date('d-m-Y',$this->created_at);
     }
 }

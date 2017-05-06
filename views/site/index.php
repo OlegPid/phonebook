@@ -44,8 +44,8 @@ use app\models\Country;
                 'content'=>function($data){
                     return $data->getPhonesList();
                 },
-            ],  
-             [
+            ],
+            [
                 'attribute'=>'img',
                 'label'=>'Avatar',
                 'contentOptions'=>['align'=>'center'],

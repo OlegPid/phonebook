@@ -158,6 +158,15 @@ class SiteController extends Controller
         return $this->render('about');
     }
     /**
+     * Displays charts page.
+     *
+     * @return string
+     */
+    public function actionCharts()
+    {
+        return $this->render('charts');
+    }
+    /**
      * Finds the Name model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
