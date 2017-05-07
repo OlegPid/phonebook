@@ -249,7 +249,9 @@ class Name extends \yii\db\ActiveRecord
         $borderColor = [];
         $datasets = [];*/
         $countries = Name::find()
-            ->select(['COUNT(*) AS cnt', "DATE_FORMAT(FROM_UNIXTIME('created_at'), '%d-%m-%yyyy') AS day"])
+            ->select(['COUNT(*) AS cnt', "FROM_UNIXTIME('created_at', '%d-%m-%Y') AS day"])
+            /*FROM_UNIXTIME(UNIX_TIMESTAMP(),
+                ->                      '%Y %D %M %h:%i:%s %x');*/
             ->groupBy(['day'])
             ->asArray()
             ->all();
