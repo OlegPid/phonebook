@@ -258,6 +258,7 @@ class NameController extends Controller
         echo Json::encode(['output'=>'', 'selected'=>'']);
     }
 
+
     /**
      *
      */

@@ -11,6 +11,7 @@ use app\models\ContactForm;
 use app\models\Name;
 use app\models\NameSearch;
 use app\models\PhoneSearch;
+use yii\helpers\Json;
 
 class SiteController extends Controller
 {
@@ -180,5 +181,8 @@ class SiteController extends Controller
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+    public function actionGetContryChart() {
+        return Json::encode(['data'=>Name::getDataCounnriesChart()]);
     }
 }
