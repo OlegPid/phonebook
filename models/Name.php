@@ -219,38 +219,11 @@ class Name extends \yii\db\ActiveRecord
         $backgroundColor = [];
         $borderColor = [];
         $datasets = [];
-        /*data: {
-        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-                datasets: [{
-            label: '# of Votes',
-                    data: [12, 19, 3, 5, 2, 3],
-                    backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
-            ],
-                    borderColor: [
-                'rgba(255,99,132,1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
-            ],
-                    borderWidth: 1
-                }]
-            },*/
-
         $countries = Name::find()->joinWith('country')
             ->select(['COUNT(*) AS cnt', 'name.country_id', 'country.name'])
             ->groupBy(['name.country_id'])
             ->asArray()
             ->all();
-            //->groupBy(['country_id'])->count();
-        //vd($countries);
         foreach ($countries as $country){
             $labels[] = $country['name'];
             $data[] = $country['cnt'];
@@ -265,8 +238,36 @@ class Name extends \yii\db\ActiveRecord
         $datasets['borderColor'] = $borderColor;
         $datasets['borderWidth'] = 1;
         $dataMain['datasets'] = $datasets;
-        //echo Json::encode(['data'=>$dataMain]);
         return $dataMain;
-        //return Json::encode(['data'=>$dataMain]);
+    }
+    public static function getDataRegistrationDateChart()
+    {
+        /*$dataMain = [];
+        $labels = [];
+        $data = [];
+        $backgroundColor = [];
+        $borderColor = [];
+        $datasets = [];*/
+        $countries = Name::find()
+            ->select(['COUNT(*) AS cnt', "DATE_FORMAT(FROM_UNIXTIME('created_at'), '%d-%m-%yyyy') AS day"])
+            ->groupBy(['day'])
+            ->asArray()
+            ->all();
+        vd($countries);
+        foreach ($countries as $country){
+            $labels[] = $country['name'];
+            $data[] = $country['cnt'];
+            $color = 'rgba('. rand(0, 255).', '. rand(0, 255).', '. rand(0, 255).', ';
+            $backgroundColor[] = $color.'0.2)';
+            $borderColor[] = $color.'1)';
+        }
+        $dataMain['labels'] = $labels;
+        $datasets['label'] = ' of Votes';
+        $datasets['data'] = $data;
+        $datasets['backgroundColor'] = $backgroundColor;
+        $datasets['borderColor'] = $borderColor;
+        $datasets['borderWidth'] = 1;
+        $dataMain['datasets'] = $datasets;
+        return $dataMain;
     }
 }
