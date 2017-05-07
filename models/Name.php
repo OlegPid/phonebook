@@ -211,7 +211,7 @@ class Name extends \yii\db\ActiveRecord
     /**
      * @return false|string
      */
-    public function getDataCounnriesChart()
+    public static function getDataCounnriesChart()
     {
         $dataMain = [];
         $labels = [];
