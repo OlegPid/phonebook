@@ -42,7 +42,7 @@ class NameRegDateChart extends Name
      *
      * @return ActiveDataProvider
      */
-    public function getDataRegistrationDateChart($params)
+    public static function getDataRegistrationDateChart($params)
     {
         $dataMain = [];
         $labels = [];
@@ -50,9 +50,6 @@ class NameRegDateChart extends Name
         $backgroundColor = [];
         $borderColor = [];
         $datasets = [];
-
-
-
 
         $query = Name::find();
         switch ($params->detailing) {
@@ -91,9 +88,8 @@ class NameRegDateChart extends Name
         $datasets['borderWidth'] = 1;
         $dataMain['datasets'] = $datasets;
         return $dataMain;
-
-
     }
+
     public static function getDetailingList()
     {
         return [
