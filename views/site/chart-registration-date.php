@@ -3,91 +3,105 @@
 /* @var $this yii\web\View */
 
 use yii\helpers\Html;
-use \app\models\Name;
+use \app\models\NameRegDateChart;
 use yii\jui\DatePicker;
+use yii\widgets\ActiveForm;
 
 $this->title = 'Registratin date statistic';
 $this->params['breadcrumbs'][] = $this->title;
 
-Name::getDataRegistrationDateChart();
+//Name::getDataRegistrationDateChart();
 ?>
 <div class="site-charts">
     <h1><?= Html::encode($this->title) ?></h1>
-    <?php echo DatePicker::widget([
-        'name'  => 'from_date',
-        'id'  => 'from_date',
-        'value'  => '',
-        'language' => 'ru',
-        'clientOptions' =>[
-            'showButtonPanel' => true,
-            'autoSize' => true,
-            'changeMonth' => true,
-            'changeYear' => true,
-            'yearRange' => '2000:2038',
-        ],
-        'dateFormat' => 'dd-MM-yyyy',
-    ]);
-    ?>
-    <?php echo DatePicker::widget([
-        'name'  => 'to_date',
-        'id'  => 'to_date',
-        'value'  => '',
-        'language' => 'ru',
-        'clientOptions' =>[
-            'showButtonPanel' => true,
-            'autoSize' => true,
-            'changeMonth' => true,
-            'changeYear' => true,
-            'yearRange' => '2000:2038',
-        ],
-        'dateFormat' => 'dd-MM-yyyy',
-    ]);
-    ?>
 
+    <div class="img-form">
+
+        <?php $form = ActiveForm::begin([
+            'action' => 'registration-date-chart',
+            'id' => 'reg-date-form',
+            'options' => ['class' => 'form-horizontal'],
+            ]); ?>
+        <div class="row">
+            <div class="col-sm-2">
+            </div>
+            <div class="col-sm-2">
+        <?= $form->field($model, 'from_date')->widget(DatePicker::classname(), [
+            'id'  => 'from_date',
+            'language' => 'ru',
+            'clientOptions' =>[
+                'showButtonPanel' => true,
+                'autoSize' => true,
+                'changeMonth' => true,
+                'changeYear' => true,
+                'yearRange' => '2000:2038',
+            ],
+            'dateFormat' => 'dd-MM-yyyy',
+        ]) ?>
+            </div>
+            <div class="col-sm-2">
+        <?= $form->field($model, 'to_date')->widget(DatePicker::classname(), [
+            'id'  => 'to_date',
+            'language' => 'ru',
+            'clientOptions' =>[
+                'showButtonPanel' => true,
+                'autoSize' => true,
+                'changeMonth' => true,
+                'changeYear' => true,
+                'yearRange' => '2000:2038',
+            ],
+            'dateFormat' => 'dd-MM-yyyy',
+        ]) ?>
+            </div>
+            <div class="col-sm-3">
+        <?= $form->field($model, 'detailing', ['template' => '<div class="col-md-3">
+                                     {label}
+                                </div>
+                               <div class="col-md-9"> 
+                                     {input}{error}{hint}
+                               </div>'
+        ])->dropDownList(NameRegDateChart::getDetailingList()); ?>
+            </div>
+            <div class="col-sm-3">
+        <button class="btn btn-info">Submit</button>
+            </div>
+        </div>
+        <?php ActiveForm::end(); ?>
+    </div>
     <canvas id="chart-of-registry-date" width="400" height="200"></canvas>
 
 </div>
 <?php
 
 $this->registerJsFile('/js/Chart.bundle.min.js');
-$js = "
-        var cnvElRegDate = document.getElementById('chart-of-registry-date');
-        var chartRegDate = new Chart(cnvElRegDate, {
-            type: 'bar',
-            data: {
-                labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-                datasets: [{
-                    label: '# of Votes',
-                    data: [12, 19, 3, 5, 2, 3],
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgba(255,99,132,1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
-                    ],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero:true
-                        }
+if (isset($data)){
+    $js = "
+           var data = JSON.parse('".$data."');
+            //data = data['data'];
+            var cnvElRegDate = document.getElementById('chart-of-registry-date');
+            var chartRegDate = new Chart(cnvElRegDate, {
+                type: 'bar',
+                data: {
+                    labels: data.labels,
+                    datasets: [{
+                        label: data.datasets.label,
+                        data: data.datasets.data,
+                        backgroundColor: data.datasets.backgroundColor,
+                        borderColor: data.datasets.borderColor,
+                        borderWidth: data.datasets.borderWidth
                     }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero:true
+                            }
+                        }]
+                    }
                 }
-            }
-        });";
+            });";
 
-$this->registerJs($js);
+    $this->registerJs($js);
+}
 ?>

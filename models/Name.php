@@ -240,38 +240,4 @@ class Name extends \yii\db\ActiveRecord
         $dataMain['datasets'] = $datasets;
         return $dataMain;
     }
-    public static function getDataRegistrationDateChart()
-    {
-        /*$dataMain = [];
-        $labels = [];
-        $data = [];
-        $backgroundColor = [];
-        $borderColor = [];
-        $datasets = [];*/
-        $countries = Name::find()
-            ->select(['COUNT(*) AS cnt', "FROM_UNIXTIME(created_at, '%d-%m-%Y') AS day"])
-            //->select(['COUNT(*) AS cnt', "FROM_UNIXTIME(created_at, '%m-%Y') AS day"])
-            /*FROM_UNIXTIME(UNIX_TIMESTAMP(),
-                ->                      '%Y %D %M %h:%i:%s %x');*/
-            ->groupBy(['day'])
-            ->orderBy('created_at')
-            ->asArray()
-            ->all();
-        vd($countries);
-        foreach ($countries as $country){
-            $labels[] = $country['name'];
-            $data[] = $country['cnt'];
-            $color = 'rgba('. rand(0, 255).', '. rand(0, 255).', '. rand(0, 255).', ';
-            $backgroundColor[] = $color.'0.2)';
-            $borderColor[] = $color.'1)';
-        }
-        $dataMain['labels'] = $labels;
-        $datasets['label'] = ' of Votes';
-        $datasets['data'] = $data;
-        $datasets['backgroundColor'] = $backgroundColor;
-        $datasets['borderColor'] = $borderColor;
-        $datasets['borderWidth'] = 1;
-        $dataMain['datasets'] = $datasets;
-        return $dataMain;
-    }
 }

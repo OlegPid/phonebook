@@ -12,6 +12,8 @@ use app\models\Name;
 use app\models\NameSearch;
 use app\models\PhoneSearch;
 use yii\helpers\Json;
+use app\models\NameRegDateChart;
+
 
 class SiteController extends Controller
 {
@@ -169,7 +171,21 @@ class SiteController extends Controller
     }
     public function actionRegistrationDateChart()
     {
-        return $this->render('chart-registration-date');
+        $model = new NameRegDateChart();
+        $model->from_date = '01-01-2017';
+        $model->to_date = '31-12-2017';
+        $model->detailing = 'year';
+        if ($model->load(Yii::$app->request->post()) &&  $model->validate()) {
+            return $this->render('chart-registration-date', [
+                'model' => $model,
+                'data' => Json::encode(NameRegDateChart::getDataRegistrationDateChart($model)),
+
+            ]);
+        }
+        return $this->render('chart-registration-date', [
+            'model' => $model,
+        ]);
+
     }
 
     /**
