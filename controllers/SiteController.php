@@ -206,4 +206,9 @@ class SiteController extends Controller
     public function actionGetContryChart() {
         return Json::encode(['data'=>Name::getDataCounnriesChart()]);
     }
+
+    public function actionTestLayout()
+    {
+        return $this->render('test-layout');
+    }
 }
