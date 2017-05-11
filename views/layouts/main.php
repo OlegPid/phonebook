@@ -37,10 +37,17 @@ AppAsset::register($this);
     if (!Yii::$app->user->isGuest) {
         $items[] = ['label' => 'Home', 'url' => ['/site/index']];
         $items[] = ['label' => 'Names', 'url' => ['/name/index']];
-        $items[] = ['label' => 'Phones', 'url' => ['/phone/index']];
-        $items[] = ['label' => 'Cities', 'url' => ['/city/index']];
-        $items[] = ['label' => 'Countries', 'url' => ['/country/index']];
-        $items[] = ['label' => 'For select names list', 'url' => ['/names-list/index']];
+        $items[] = ['label' => 'Reference books',
+                    'options' => [
+                        'class' => 'dropdown',
+                    ],
+                    'items' => [
+                        ['label' => 'Phones', 'url' => '/phone/index'],
+                        ['label' => 'Cities', 'url' => '/city/index'],
+                        ['label' => 'Countries', 'url' => '/country/index'],
+                        ['label' => 'For select names list', 'url' => '/names-list/index'],
+                    ]
+        ];
         $items[] = ['label' => 'Charts',
                     'options' => [
                         'class' => 'dropdown',

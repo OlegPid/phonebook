@@ -1,99 +1,93 @@
-.card-block{
-    height:230px;
-    background:lightgrey;
-    /*border-style: solid;*/
-    /*padding: 2px;*/
-}
-.null-color{
-    background:white;
-}
-.col-md-4{
+.site-test-layout{
     border: 1px solid darkgray;
+    line-height: 1;
 }
-
+.card-block{
+height:230px;
+background:lightgrey;
+border: 1px solid darkgray;
+}
+.footer-block{
+border-top: 1px solid darkgray;
+}
 .color-bar{
-    height:30px;
-    background:#ff6535;
+height:30px;
+background:#ff6535;
 }
 
 .activ{
-    background:#fffe34;
+background:#fffe34;
 }
 
 .info,.time{
-    height:50px;
-    width:80px;
-    font-size: 20px;
-    padding: 10px;
-    /*padding-top: 10px;
-    padding-bottom: 10px;
-    padding-right: 30px;
-    padding-left: 10px;*/
-
+height:50px;
+width:80px;
+font-size: 20px;
+padding: 10px;
 }
 
 .info span, .time span{
-    padding-top: 5px;
-    padding-bottom: 5px;
-    padding-right: 10px;
-    padding-left: 10px;
+padding-top: 5px;
+padding-bottom: 5px;
+padding-right: 10px;
+padding-left: 10px;
 }
 
 .time span{
-    color: white;
-    background-color: #2e2e2e;
-    opacity: 0.7;
+color: white;
+background-color: #2e2e2e;
+opacity: 0.7;
 }
 
 .time-out span{
-    background-color: red;
+background-color: red;
 }
 
 .footer-card-block{
-    height:30px;
-    width: 100%;
-    position: absolute;
+height:50px;
+width:100%;
+position: absolute;
 }
 
 .right_{
-    position: absolute;
-    right: 10px;
-    top: 0px;
+position: absolute;
+right:10px;
+top:0px;
 }
 
 .left_{
-    position: absolute;
-    left: -10px;
-    top: 0px;
+position: absolute;
+left:-10px;
+top:0px;
 }
 
 .title{
-    /*padding-top: 5px;
-    margin: -5px;*/
-    font-size: 50px;
+padding-top: 5px;
+font-size: 300%;
+height:50px;
+width: 100%;
 }
 
 .weight{
-    font-size: 100px;
-    font-weight: bold;
-    margin: -30px;
+font-size: 100px;
+font-weight: bold;
+height:100px;
+width: 100%;
 }
 .right-txt{
-    font-size: 20px;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    padding-right: 10px;
-    padding-left: 10px;
-}
-.col-md-6{
-    border: 1px solid darkgray;
+font-size: 20px;
+padding-top: 5px;
+padding-bottom: 5px;
+padding-right: 10px;
+padding-left: 10px;
 }
 .left-txt b, .right-txt b{
     font-size: 25px;
 }
 .left-txt {
+    height:40px;
     width: 100px;
-    padding-left: 10px;
+    padding-top: 10px;
     font-size: 20px;
     background-color: #ffcb34;
 }
