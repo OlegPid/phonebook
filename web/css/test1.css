@@ -1,0 +1,83 @@
+.site-test-layout{
+    /*border: 1px solid darkgray;*/
+    line-height: 1;
+}
+.card-block{
+    height:185px;
+    width: 285px;
+    background:white;
+    border: 1px solid #e2e0e2;
+    -webkit-box-shadow: 1px 1px 0px 0px rgba(209,207,209, 1);
+    box-shadow: 1px 1px 0px 0px rgba(209,207,209, 1);
+    margin: auto;
+}
+.footer-block{
+border-top: 1px solid darkgray;
+}
+
+.title{
+padding: 10px;
+font-size: 150%;
+height:40px;
+width: 100%;
+}
+
+.btn {
+    width: 120px;
+    margin: 10px;
+}
+.navbar-brand{
+    color: black;
+    font-size: 35px;
+}
+nav {
+    padding-top: 25px;
+}
+.navbar-nav{
+    font-weight: bold;
+}
+@media(min-width:992px) {
+    .navbar-nav{
+        margin-right: 140px;
+    }
+}
+@media(max-width:991px) {
+    .navbar-nav{
+        margin-right: 0px;
+    }
+}
+.btn-warning{
+    background-color: #ff9967;
+}
+.tooltip-inner{
+    padding: 10px;
+    color: black;
+    background-color: #d3d1d3;
+    border-radius: 0;
+    max-width: 130px;
+    font-size: 14px;
+}
+.tooltip.right .tooltip-arrow{
+    border-right-color: #d3d1d3;
+}
+.chois{
+    width: 100%;
+    height: 90px;
+}
+.left-col, .right-col {
+    height: 90px;
+    width: 49%;
+    display: inline-block;
+    padding-left: 20px;
+}
+
+input[type="radio"], input[type="checkbox"] {
+    margin: 10px 0 0;
+}
+.tooltip.right {
+    padding: 7px 5px;
+    margin-left: 3px;
+}
+.badge {
+    background-color: lightgrey;
+}
