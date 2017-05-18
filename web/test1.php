@@ -41,7 +41,7 @@
                     for ($i =0; $i<4; $i++){
                         echo '<div class="col-sm-6 col-md-4 col-lg-3" style="padding: 5px">
                                 <div class="card-block" id="cd1'.$i.'">
-                                <div class="title"><b>Морская</b> <span class="badge" data-toggle="tooltip" data-placement="right" title="Охотничьи колбаски, ветчина, сыр, грибы, курица, морепродукты" data-viewport="#cd1'.$i.'"><i>i</i></span>
+                                <div class="title"><b>Морская</b> <span class="badge" data-toggle="tooltip" data-title="Охотничьи колбаски, ветчина, сыр, грибы, курица, морепродукты"><i>i</i></span>
                                 </div>
                                 <div class="chois">
                                     <div class="left-col">
@@ -66,7 +66,7 @@
 
                         echo '<div class="col-sm-6 col-md-4 col-lg-3" style="padding: 5px">
                                 <div class="card-block" id="cd2'.$i.'">
-                                <div class="title"><b>Доддо</b> <span class="badge" data-toggle="tooltip" data-placement="right" title="Охотничьи колбаски, ветчина, сыр, грибы, курица, морепродукты" data-viewport="#cd2'.$i.'"><i>i</i></span>
+                                <div class="title"><b>Доддо</b>  <span class="badge" data-toggle="tooltip" data-title="Охотничьи колбаски, ветчина, сыр, грибы, курица, морепродукты"><i>i</i></span>
                                 </div>
                                 <div class="chois">
                                     <div class="left-col">
@@ -91,7 +91,7 @@
 
                         echo '<div class="col-sm-6 col-md-4 col-lg-3" style="padding: 5px">
                                 <div class="card-block" id="cd3'.$i.'">
-                                <div class="title"><b>Итальянская</b> <span class="badge" data-toggle="tooltip" data-placement="right" title="Охотничьи колбаски, ветчина, сыр, грибы, курица, морепродукты" data-viewport="#cd3'.$i.'"><i>i</i></span>
+                                <div class="title"><b>Итальянска</b>  <span class="badge" data-toggle="tooltip" data-title="Охотничьи колбаски, ветчина, сыр, грибы, курица, морепродукты"><i>i</i></span>
                                 </div>
                                 <div class="chois">
                                     <div class="left-col">
@@ -116,7 +116,7 @@
 
                         echo '<div class="col-sm-6 col-md-4 col-lg-3" style="padding: 5px">
                                 <div class="card-block" id="cd4'.$i.'">
-                                <div class="title"><b>Чили</b> <span class="badge" data-toggle="tooltip" data-placement="right" title="Охотничьи колбаски, ветчина, сыр, грибы, курица, морепродукты" data-viewport="#cd4'.$i.'"><i>i</i></span>
+                                <div class="title"><b>Чили</b>  <span class="badge" data-toggle="tooltip" data-title="Охотничьи колбаски, ветчина, сыр, грибы, курица, морепродукты"><i>i</i></span>
                                 </div>
                                 <div class="chois">
                                     <div class="left-col">
@@ -155,9 +155,47 @@
 <script src="/js/jquery.js"></script>
 <script src="/js/bootstrap.js"></script>
 <script>
-    $(function () {
-        $('[data-toggle="tooltip"]').tooltip();
-    })
+function simple_tooltip(target_items){
+    var my_tooltip;
+    $(target_items).each(function(i){
+        $(this).hover(function(kmouse){
+            var offsetLeft = $(this).position().left;
+            var width = $(this).outerWidth();
+            var widthParent = $(this).closest('.card-block').width();
+            var lPos = $(this).position().left;
+            var tPos = $(this).position().top-5;
+            var widthTT = 130;
+            var div = '<div class="';
+            if ((offsetLeft+width/2) > widthParent/2) {
+                name = "tt-left";
+                widthTT = lPos + width-5;
+                lPos = 5;
+                div = div + name+'" id="'+name+i+'"><div class="tt-inner">'+$(this).data('title')+'</div>'+
+                    '<div class="tt-arrow"></div></div>';
+            } else {
+                name = "tt-right";
+                lPos += width/2;
+                widthTT = widthParent - lPos;
+                div = div + name+'" id="'+name+i+'"><div class="tt-arrow"></div>'+
+                    '<div class="tt-inner">'+$(this).data('title')+'</div></div>';
+            }
+            $(this).closest('.title').append(div);
+            my_tooltip = $("#"+name+i);
+            my_tooltip.css({left:lPos, top:tPos, width: widthTT});
+            my_tooltip.css({opacity:1, display:"none"}).fadeIn(1);
+        },function(){
+            var pr = $(this).closest('.title');
+            var chL= pr.children(".tt-left");
+            var chR= pr.children(".tt-right");
+                chL.remove();
+                chR.remove();
+        });
+    });
+}
+
+$(document).ready(function(){
+    simple_tooltip(".badge");
+});
 </script>
 </body>
 </html>

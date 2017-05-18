@@ -16,10 +16,11 @@ border-top: 1px solid darkgray;
 }
 
 .title{
-padding: 10px;
-font-size: 150%;
-height:40px;
-width: 100%;
+    position: relative;
+    padding: 10px;
+    font-size: 150%;
+    height:40px;
+    width: 100%;
 }
 
 .btn {
@@ -28,7 +29,12 @@ width: 100%;
 }
 .navbar-brand{
     color: black;
-    font-size: 35px;
+    font-size: 250%;
+}
+@media(max-width:460px) {
+    .navbar-brand{
+        font-size: 150%;
+    }
 }
 nav {
     padding-top: 25px;
@@ -49,7 +55,7 @@ nav {
 .btn-warning{
     background-color: #ff9967;
 }
-.tooltip-inner{
+.tooltip-inner_{
     padding: 10px;
     color: black;
     background-color: #d3d1d3;
@@ -79,5 +85,56 @@ input[type="radio"], input[type="checkbox"] {
     margin-left: 3px;
 }
 .badge {
+    position: relative;
     background-color: lightgrey;
+    z-index: 999;
+    cursor: default;
 }
+
+.mytooltip-right:after{
+    content: ' ';
+    position: absolute;
+    left: -20px;
+    top: 10px;
+    width: 0px;
+    height: 0px;
+    border-left: 10px solid transparent;
+    border-top: 10px solid transparent;
+    border-right: 10px solid #d3d1d3;
+    border-bottom: 10px solid transparent;
+}
+
+
+.tt-right, .tt-left{
+    position: absolute;
+    max-width: 300px;
+    max-height: 130px;
+    font-size: 14px;
+    overflow: hidden;
+}
+.tt-arrow{
+    vertical-align: top;
+    margin-top: 8px;
+    width: 1px;
+    height: 1px;
+    display: inline-block;
+}
+.tt-inner{
+    vertical-align: top;
+    padding: 10px;
+    color: black;
+    display: inline-block;
+    width: 75%;
+    background-color: #d3d1d3;
+}
+.tt-right .tt-arrow{
+    border: 5px solid transparent;
+    border-left: 15px solid transparent;
+    border-right: 15px solid #d3d1d3;
+}
+.tt-left .tt-arrow{
+    border: 5px solid transparent;
+    border-right: 15px solid transparent;
+    border-left: 15px solid #d3d1d3;
+}
+
